@@ -1,0 +1,12 @@
+@checkout-products-grid-columns: 4;
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .checkout-index-index {
+        .products-grid.grid {
+            .product-item {
+                width: 100% / @checkout-products-grid-columns;
+                text-align: center;
+            }
+        }
+    }
+}

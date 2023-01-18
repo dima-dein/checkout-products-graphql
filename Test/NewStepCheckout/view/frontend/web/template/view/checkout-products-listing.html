@@ -1,0 +1,38 @@
+<div class="products-grid grid">
+    <ol class="product-items">
+        <each args="data: productListing, as: '$product'">
+            <li class="product-item">
+                <div class="product-item-photo">
+                    <img data-bind="attr: {
+                        'src': $product.small_image.url,
+                        'alt': $product.small_image.label
+                    }">
+                </div>
+                <div class="product-item-details">
+                    <strong class="product-item-name" data-bind="i18n: $product.name"></strong>
+                    <div class="price-box price-final_price" data-role="priceBox">
+                        <span class="normal-price">
+                            <span class="price-container price-final_price tax weee">
+                            <span class="price-label" data-bind="i18n: 'As low as:'"></span>
+                                <span id=""
+                                      data-price-amount=""
+                                      data-price-type="finalPrice"
+                                      class="price-wrapper ">
+                                    <span class="price"
+                                          data-bind="text: $parent.formatPrice($product.price_range.minimum_price.final_price.value)"
+                                    ></span>
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit"
+                        title="Add to Cart"
+                        class="action tocart primary"
+                        data-bind="click: function() { return $parent.addProductToCart($product.sku) }">
+                    <span data-bind="i18n: 'Add to Cart'"></span>
+                </button>
+            </li>
+        </each>
+    </ol>
+</div>
