@@ -4,12 +4,14 @@ define([
     'mage/url',
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/action/get-totals',
+    'Test_NewStepCheckout/js/model/graph/add-to-cart-mutation',
 ], function (
     $,
     ko,
     mageUrl,
     quote,
-    getTotals
+    getTotals,
+    addToCart
 ) {
     'use strict';
 
@@ -17,34 +19,8 @@ define([
      * Add product to cart via GraphQL query, based on SKU
      */
     return function (productSku) {
-        let cartId = quote.getQuoteId(), // Quote id is equal to cart id
-            // QraphQL cart mutation query
-            addItemToCartMutation = `mutation{
-                  addSimpleProductsToCart(
-                    input: {
-                      cart_id: "${cartId}"
-                      cart_items: [
-                        {
-                          data: {
-                            quantity: 1
-                            sku: "${productSku}"
-                          }
-                        }
-                      ]
-                    }
-                  ) {
-                    cart {
-                      items {
-                        id
-                        product {
-                          name
-                          sku
-                        }
-                        quantity
-                      }
-                    }
-                  }
-                }`;
+        // QraphQL cart mutation query, Quote id is equal to cart id
+        let addItemToCartMutation = addToCart.ADD_SIMPLE_PRODUCTS_TO_CART(quote.getQuoteId(), productSku)
 
         $.ajax({
             method: "POST",

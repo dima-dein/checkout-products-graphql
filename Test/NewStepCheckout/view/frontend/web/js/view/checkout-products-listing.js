@@ -5,6 +5,7 @@ define([
     'jquery',
     'Magento_Checkout/js/model/quote',
     'Test_NewStepCheckout/js/view/checkout-add-to-cart',
+    'Test_NewStepCheckout/js/model/graph/request-products',
     'mage/url',
     'priceUtils'
 ], function (
@@ -14,6 +15,7 @@ define([
     $,
     quote,
     addToCart,
+    requestProducts,
     mageUrl,
     priceUtils
 ) {
@@ -39,55 +41,7 @@ define([
          * @param productsNumber
          */
         requestCategory: function (categoryId = 3, productsNumber = 8) {
-            let requestQuery = `{
-            products(
-                filter: {category_id: {eq: "${categoryId}"}},
-                sort: {name: ASC},
-                pageSize: ${productsNumber},
-                currentPage: 1
-            ) {
-                total_count
-                items {
-                    name
-                    sku
-                    url_key
-                    small_image {
-                        url
-                        label
-                    }
-                    price_range {
-                        minimum_price {
-                            regular_price {
-                                value
-                                currency
-                            }
-                            final_price {
-                                value
-                                currency
-                            }
-                            discount {
-                                amount_off
-                                percent_off
-                            }
-                        }
-                        maximum_price {
-                            regular_price {
-                                value
-                                currency
-                            }
-                            final_price {
-                                value
-                                currency
-                            }
-                            discount {
-                                amount_off
-                                percent_off
-                            }
-                        }
-                    }
-                }
-            }
-        }`;
+            let requestQuery = requestProducts.GET_PRODUCTS_BY_CATEGORY_ID(categoryId, productsNumber);
 
             $.ajax({
                 method: "GET",
